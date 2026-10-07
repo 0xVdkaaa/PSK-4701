@@ -1,17 +1,15 @@
+import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+// ... import lain (kayak Header/Footer kalau ada)
 
-export default function AdminLayout({ children, title }) {
+export default function AdminLayout() { // <-- { children } nya dihapus
     return (
-        <div className="bg-gray-100 flex min-h-screen font-sans">
+        <div className="flex min-h-screen bg-gray-100">
             <Sidebar />
             <div className="flex-1 flex flex-col">
-                <Header title={title} />
-                <main className="p-6 flex-1">
-                    {children}
+                <main className="flex-1 p-6">
+                    <Outlet /> {/* <-- children diganti jadi Outlet */}
                 </main>
-                <Footer />
             </div>
         </div>
     );

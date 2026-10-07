@@ -1,13 +1,35 @@
+import { NavLink } from 'react-router-dom';
+
 export default function Sidebar() {
     return (
-        <aside className="w-64 bg-blue-900 text-white flex-shrink-0 min-h-screen">
+        <div className="w-64 bg-blue-800 text-white flex flex-col min-h-screen">
             <div className="p-6">
-                <h1 className="text-2xl font-bold">Admin</h1>
+                <h2 className="text-2xl font-bold">Admin</h2>
             </div>
-            <nav className="mt-2 text-sm">
-                <a href="#" className="block py-3 px-6 hover:bg-blue-800 flex items-center">📊 Dashboard</a>
-                <a href="#" className="block py-3 px-6 bg-blue-800 flex items-center">🎓 Mahasiswa</a>
+            <nav className="flex-1 mt-4">
+                <ul className="space-y-2">
+                    <li>
+                        <NavLink 
+                            to="/admin/dashboard" 
+                            className={({ isActive }) => 
+                                `flex items-center px-6 py-3 hover:bg-blue-700 transition-colors ${isActive ? 'bg-blue-700 border-l-4 border-white' : ''}`
+                            }
+                        >
+                            <span className="mr-3">📊</span> Dashboard
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
+                            to="/admin/mahasiswa" 
+                            className={({ isActive }) => 
+                                `flex items-center px-6 py-3 hover:bg-blue-700 transition-colors ${isActive ? 'bg-blue-700 border-l-4 border-white' : ''}`
+                            }
+                        >
+                            <span className="mr-3">🎓</span> Mahasiswa
+                        </NavLink>
+                    </li>
+                </ul>
             </nav>
-        </aside>
+        </div>
     );
 }
