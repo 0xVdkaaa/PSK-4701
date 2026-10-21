@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast'; // <-- IMPORT TOAST WAJIB DI SINI
 import './index.css';
 
 import AuthLayout from './layouts/AuthLayout';
@@ -8,7 +9,7 @@ import AdminLayout from './layouts/AdminLayout';
 
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import Mahasiswa from './pages/Mahasiswa'; // Import Mahasiswa
+import Mahasiswa from './pages/Mahasiswa';
 import MahasiswaDetail from './pages/MahasiswaDetail';
 
 const ProtectedRoute = ({ children }) => {
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Mahasiswa />, // <--- Udah diganti jadi Mahasiswa
+            element: <Mahasiswa />,
           },
           {
             path: ":nim",
@@ -69,6 +70,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    {/* WADAH TOAST BIAR NOTIFNYA BISA MUNCUL DI POJOK KANAN ATAS */}
+    <Toaster position="top-right" />
     <RouterProvider router={router} />
   </React.StrictMode>
 );

@@ -3,10 +3,9 @@ import Form from '../components/Form';
 import Label from '../components/Label';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import { showToast } from '../utils/toastHelper'; // Pastiin ini ada
 
 export default function Login() {
-    
-    // Data JSON Dummy sesuai materi dosen
     const dummyUser = {
         email: "admin@mail.com",
         password: "123"
@@ -14,16 +13,22 @@ export default function Login() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        const email = e.target.email.value; // Ambil nilai dari input id="email"
-        const password = e.target.password.value; // Ambil nilai dari input id="password"
+        const email = e.target.email.value; 
+        const password = e.target.password.value; 
 
-        // Cek apakah inputan cocok sama data dummy
         if (email === dummyUser.email && password === dummyUser.password) {
-            // Kalau sukses, simpan 'user' ke localStorage
             localStorage.setItem("user", JSON.stringify(dummyUser));
-            window.location.href = "/admin"; // Redirect cara dosen
+            
+            // 1. Munculin Toast dulu
+            showToast.success("Login berhasil! Selamat datang."); 
+            
+            // 2. Tahan sebentar (1.5 detik), baru pindah halaman
+            setTimeout(() => {
+                window.location.href = "/admin"; 
+            }, 1500); // 1500 milidetik = 1.5 detik
+            
         } else {
-            alert('Email atau password salah bos!');
+            showToast.error('Email atau password salah bos!'); 
         }
     };
 
@@ -33,23 +38,11 @@ export default function Login() {
             <Form onSubmit={handleLogin}>
                 <div className="mb-4">
                     <Label htmlFor="email">Email</Label>
-                    <Input 
-                        id="email" 
-                        name="email" 
-                        type="email" 
-                        placeholder="admin@mail.com" 
-                        required 
-                    />
+                    <Input id="email" name="email" type="email" placeholder="admin@mail.com" required />
                 </div>
                 <div className="mb-4">
                     <Label htmlFor="password">Password</Label>
-                    <Input 
-                        id="password" 
-                        name="password" 
-                        type="password" 
-                        placeholder="123" 
-                        required 
-                    />
+                    <Input id="password" name="password" type="password" placeholder="123" required />
                 </div>
                 <Button type="submit" className="w-full mt-4">Login</Button>
             </Form>

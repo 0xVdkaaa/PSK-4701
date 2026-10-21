@@ -1,6 +1,18 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { confirmAlert } from '../utils/swalHelper';
 
 export default function Sidebar() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        confirmAlert('Logout', 'Yakin mau keluar dari aplikasi?', 'Ya, Logout!').then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('user');
+                navigate('/');
+            }
+        });
+    };
+
     return (
         <div className="w-64 bg-blue-800 text-white flex flex-col min-h-screen">
             <div className="p-6">
@@ -30,6 +42,12 @@ export default function Sidebar() {
                     </li>
                 </ul>
             </nav>
+            
+            <div className="p-4 border-t border-blue-700">
+                <button onClick={handleLogout} className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded font-bold transition-colors">
+                    🚪 Logout
+                </button>
+            </div>
         </div>
     );
 }

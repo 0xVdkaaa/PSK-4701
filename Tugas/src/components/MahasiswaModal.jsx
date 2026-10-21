@@ -2,23 +2,20 @@ import { useState, useEffect } from 'react';
 import Button from './Button';
 import Input from './Input';
 import Label from './Label';
+import { showToast } from '../utils/toastHelper';
 
 export default function MahasiswaModal({ isModalOpen, onClose, onSubmit, selectedMahasiswa }) {
-    // 1. state form: form, setForm (Sesuai nama dari instruksi)
     const [form, setForm] = useState({ nim: '', nama: '', status: true });
 
-    // 2. useEffect: ketika selectedMahasiswa ada maka setForm isi dengan detail selectedMahasiswa
-    // sembari memanggil dependensi (selectedMahasiswa, isModalOpen)
+    // Efek buat reset form otomatis
     useEffect(() => {
         if (selectedMahasiswa) {
             setForm(selectedMahasiswa);
         } else {
-            // ketika tidak ada (tambah baru), set null semua (dikosongkan)
             setForm({ nim: '', nama: '', status: true });
         }
     }, [selectedMahasiswa, isModalOpen]);
 
-    // 3. handleChange: untuk form
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setForm(prev => ({
@@ -27,21 +24,18 @@ export default function MahasiswaModal({ isModalOpen, onClose, onSubmit, selecte
         }));
     };
 
-    // 4. handleSubmit: panggil onSubmit parameter state form lalu panggil onClose
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        // 5. Form validasi sederhana di dalam modal sebelum dikirim
+        // Validasi toast biar gak close kalau kosong
         if (!form.nim.trim() || !form.nama.trim()) {
-            alert("Validasi Gagal: NIM dan Nama tidak boleh kosong!");
+            showToast.error("NIM dan Nama tidak boleh kosong!");
             return;
         }
 
         onSubmit(form);
-        onClose(); // Tutup modal setelah submit
     };
 
-    // 6. tambahkan baris kondisi ketika isModalOpen false maka null
     if (!isModalOpen) return null;
 
     return (
@@ -85,7 +79,6 @@ export default function MahasiswaModal({ isModalOpen, onClose, onSubmit, selecte
                         </Label>
                     </div>
                     <div className="flex justify-end space-x-2">
-                        {/* onClose dipanggil saat klik Batal */}
                         <Button type="button" onClick={onClose} className="bg-gray-500 hover:bg-gray-600">Batal</Button>
                         <Button type="submit" className="bg-blue-600 hover:bg-blue-700">Simpan Data</Button>
                     </div>
