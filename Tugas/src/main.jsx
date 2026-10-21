@@ -8,8 +8,8 @@ import AdminLayout from './layouts/AdminLayout';
 
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
-import Admin from './pages/Admin';
-import MahasiswaDetail from './pages/MahasiswaDetail'; // <-- Import baru
+import Mahasiswa from './pages/Mahasiswa'; // Import Mahasiswa
+import MahasiswaDetail from './pages/MahasiswaDetail';
 
 const ProtectedRoute = ({ children }) => {
   const isLoggedIn = localStorage.getItem("user");
@@ -51,10 +51,10 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Admin />,
+            element: <Mahasiswa />, // <--- Udah diganti jadi Mahasiswa
           },
           {
-            path: ":nim", // <-- Parameter URL penangkap NIM
+            path: ":nim",
             element: <MahasiswaDetail />,
           },
         ],
