@@ -1,53 +1,97 @@
-import { useState, useEffect } from 'react';
-import Label from './Label';
-import Input from './Input';
-import Button from './Button';
-import Form from './Form';
+import { useState, useEffect } from "react";
+import Button from "./Button";
+import Input from "./Input";
+import Label from "./Label";
 
-export default function Modal({ isOpen, onClose, onSave, editData }) {
-    const [nim, setNim] = useState('');
-    const [nama, setNama] = useState('');
+export default function Modal({ isOpen, onClose, onSubmit, editData }) {
+  // State form lokal
+  const [formData, setFormData] = useState({ nim: "", nama: "", status: true });
 
-    // Efek ini jalan otomatis: kalau klik edit, form keisi data. Kalau tambah baru, form kosong.
-    useEffect(() => {
-        if (editData) {
-            setNim(editData.nim);
-            setNama(editData.nama);
-        } else {
-            setNim('');
-            setNama('');
-        }
-    }, [editData, isOpen]);
+  // Efek buat ngisi form otomatis kalau lagi mode Edit
+  useEffect(() => {
+    if (editData) {
+      setFormData(editData);
+    } else {
+      setFormData({ nim: "", nama: "", status: true });
+    }
+  }, [editData, isOpen]);
 
-    if (!isOpen) return null;
+  // 1. EVENT HANDLING: handleChange buat nangkep perubahan input
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSave({ nim, nama }); // Kirim data ke Admin.jsx
-    };
+  // 2. EVENT HANDLING: handleSubmit buat nahan refresh form dan ngirim data
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData); // Kirim data ke Admin.jsx
+  };
 
-    return (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg shadow-lg w-1/3 p-6 relative">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-bold">{editData ? 'Edit Mahasiswa' : 'Tambah Mahasiswa'}</h3>
-                    <button type="button" onClick={onClose} className="text-gray-500 hover:text-red-500 text-xl font-bold">&times;</button>
-                </div>
-                <Form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <Label htmlFor="nim">NIM</Label>
-                        <Input id="nim" type="text" placeholder="Masukkan NIM" value={nim} onChange={(e) => setNim(e.target.value)} />
-                    </div>
-                    <div className="mb-6">
-                        <Label htmlFor="nama">Nama</Label>
-                        <Input id="nama" type="text" placeholder="Masukkan Nama" value={nama} onChange={(e) => setNama(e.target.value)} />
-                    </div>
-                    <div className="flex justify-end space-x-2">
-                        <Button type="button" onClick={onClose} className="bg-gray-300 hover:bg-gray-400 text-gray-800">Batal</Button>
-                        <Button type="submit">Simpan</Button>
-                    </div>
-                </Form>
-            </div>
-        </div>
-    );
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-lg">
+        <h3 className="text-xl font-bold mb-4">
+          {editData ? "Edit Mahasiswa" : "Tambah Mahasiswa"}
+        </h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <Label htmlFor="nim">NIM</Label>
+            <Input
+              type="text"
+              id="nim"
+              name="nim"
+              value={formData.nim}
+              onChange={handleChange}
+              placeholder="Masukkan NIM (contoh: A11.2020.13139)"
+            />
+          </div>
+          <div className="mb-4">
+            <Label htmlFor="nama">Nama</Label>
+            <Input
+              type="text"
+              id="nama"
+              name="nama"
+              value={formData.nama}
+              onChange={handleChange}
+              placeholder="Masukkan Nama Lengkap"
+            />
+          </div>
+          <div className="mb-6">
+            <Label
+              htmlFor="status"
+              className="flex items-center cursor-pointer"
+            >
+              <input
+                type="checkbox"
+                id="status"
+                name="status"
+                checked={formData.status}
+                onChange={handleChange}
+                className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <span className="text-gray-700">Status Mahasiswa Aktif</span>
+            </Label>
+          </div>
+          <div className="flex justify-end space-x-2">
+            <Button
+              type="button"
+              onClick={onClose}
+              className="bg-gray-500 hover:bg-gray-600"
+            >
+              Batal
+            </Button>
+            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+              Simpan Data
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
