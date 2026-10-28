@@ -3,32 +3,33 @@ import Form from '../components/Form';
 import Label from '../components/Label';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import { showToast } from '../utils/toastHelper'; // Pastiin ini ada
+import { showToast } from '../utils/toastHelper';
+import { loginAPI } from '../utils/Apis/AuthApi'; // Import API Login
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-    const dummyUser = {
-        email: "admin@mail.com",
-        password: "123"
-    };
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         const email = e.target.email.value; 
         const password = e.target.password.value; 
 
-        if (email === dummyUser.email && password === dummyUser.password) {
-            localStorage.setItem("user", JSON.stringify(dummyUser));
+        try {
+            // Nembak API buat cek email & password
+            const user = await loginAPI(email, password);
             
-            // 1. Munculin Toast dulu
-            showToast.success("Login berhasil! Selamat datang."); 
+            // Kalau berhasil, simpan ke localStorage
+            localStorage.setItem("user", JSON.stringify(user));
+            showToast.success("Login berhasil! Selamat datang.");
             
-            // 2. Tahan sebentar (1.5 detik), baru pindah halaman
             setTimeout(() => {
-                window.location.href = "/admin"; 
-            }, 1500); // 1500 milidetik = 1.5 detik
-            
-        } else {
-            showToast.error('Email atau password salah bos!'); 
+                navigate("/admin/dashboard");
+            }, 1500);
+
+        } catch (error) {
+            // Tangkap pesan error dari lemparan AuthApi.js
+            showToast.error(error.message); 
         }
     };
 
@@ -46,6 +47,9 @@ export default function Login() {
                 </div>
                 <Button type="submit" className="w-full mt-4">Login</Button>
             </Form>
+            <p className="text-center mt-4 text-sm">
+                Belum punya akun? <a href="/register" className="text-blue-600 hover:underline">Daftar sekarang</a>
+            </p>
         </Card>
     );
 }

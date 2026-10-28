@@ -1,42 +1,39 @@
 import { Link } from 'react-router-dom';
+import Button from './Button';
 
-// Menerima 3 props sesuai instruksi dosen: state mahasiswa, openEditModal, dan onDelete (handleDelete)
-export default function MahasiswaTable({ mahasiswa, openEditModal, onDelete }) {
+export default function MahasiswaTable({ data = [], onEdit, onDelete }) {
     return (
         <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-                <thead>
-                    <tr className="bg-blue-800 text-white text-sm">
-                        <th className="p-3 border-b">NIM</th>
-                        <th className="p-3 border-b">Nama Lengkap</th>
-                        <th className="p-3 border-b">Status</th>
-                        <th className="p-3 border-b">Aksi</th>
+            <table className="min-w-full bg-white border border-gray-200">
+                <thead className="bg-blue-700 text-white">
+                    <tr>
+                        <th className="py-3 px-4 text-left">NIM</th>
+                        <th className="py-3 px-4 text-left">Nama Lengkap</th>
+                        <th className="py-3 px-4 text-left">Status</th>
+                        <th className="py-3 px-4 text-left">Aksi</th>
                     </tr>
                 </thead>
-                <tbody className="text-sm text-gray-700">
-                    {mahasiswa.map((mhs) => (
-                        <tr key={mhs.nim} className="hover:bg-gray-50">
-                            <td className="p-3 border-b font-medium">{mhs.nim}</td>
-                            <td className="p-3 border-b">{mhs.nama}</td>
-                            <td className="p-3 border-b">
-                                <span className={`px-2 py-1 rounded text-xs text-white ${mhs.status ? 'bg-green-500' : 'bg-red-500'}`}>
-                                    {mhs.status ? 'Aktif' : 'Non-Aktif'}
+                <tbody>
+                    {data.map((mhs) => (
+                        <tr key={mhs.id} className="border-b hover:bg-gray-50">
+                            <td className="py-3 px-4">{mhs.nim}</td>
+                            <td className="py-3 px-4">{mhs.nama}</td>
+                            <td className="py-3 px-4">
+                                <span className={`px-2 py-1 rounded text-sm ${mhs.status ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                    {mhs.status ? 'Aktif' : 'Tidak Aktif'}
                                 </span>
                             </td>
-                            <td className="p-3 border-b">
-                                <Link to={`/admin/mahasiswa/${mhs.nim}`} className="bg-blue-500 text-white px-3 py-1 rounded text-xs mr-1 hover:bg-blue-600 inline-block">Detail</Link>
-                                {/* Panggil fungsi openEditModal dengan parameter mhs */}
-                                <button onClick={() => openEditModal(mhs)} className="bg-yellow-500 text-white px-3 py-1 rounded text-xs mr-1 hover:bg-yellow-600">Edit</button>
-                                {/* Panggil fungsi onDelete dengan parameter nim */}
-                                <button onClick={() => onDelete(mhs.nim)} className="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600">Hapus</button>
+                            <td className="py-3 px-4 flex space-x-2">
+                                {/* Link Detail sekarang pakai mhs.id */}
+                                <Link to={`/admin/mahasiswa/${mhs.id}`}>
+                                    <Button type="button" className="bg-blue-500 hover:bg-blue-600 text-xs">Detail</Button>
+                                </Link>
+                                <Button type="button" onClick={() => onEdit(mhs)} className="bg-yellow-500 hover:bg-yellow-600 text-xs">Edit</Button>
+                                {/* Tombol hapus sekarang lempar mhs.id */}
+                                <Button type="button" onClick={() => onDelete(mhs.id)} className="bg-red-500 hover:bg-red-600 text-xs">Hapus</Button>
                             </td>
                         </tr>
                     ))}
-                    {mahasiswa.length === 0 && (
-                        <tr>
-                            <td colSpan="4" className="text-center p-4 text-gray-500">Belum ada data mahasiswa.</td>
-                        </tr>
-                    )}
                 </tbody>
             </table>
         </div>

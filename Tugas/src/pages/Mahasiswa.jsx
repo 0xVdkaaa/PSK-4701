@@ -1,101 +1,94 @@
-import { useState } from 'react';
-import Card from '../components/Card';
-import Button from '../components/Button';
+import { useState, useEffect } from 'react';
 import MahasiswaTable from '../components/MahasiswaTable';
 import MahasiswaModal from '../components/MahasiswaModal';
-import { confirmAlert } from '../utils/swalHelper'; 
-import { showToast } from '../utils/toastHelper'; 
+import Button from '../components/Button';
+import { confirmAlert } from '../utils/swalHelper';
+import { showToast } from '../utils/toastHelper';
+import { 
+    getAllMahasiswa, 
+    storeMahasiswa, 
+    updateMahasiswa, 
+    deleteMahasiswa 
+} from '../utils/Apis/MahasiswaApi'; // Import API Mahasiswa
 
 export default function Mahasiswa() {
-    const [mahasiswa, setMahasiswa] = useState([
-        { nim: 'A11.2020.13139', nama: 'Rizqy Akbar Dinul Putra', status: true }
-    ]);
+    const [mahasiswa, setMahasiswa] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMahasiswa, setSelectedMahasiswa] = useState(null);
-    const [isModalOpen, setModalOpen] = useState(false);
 
-    const storeMahasiswa = (data) => {
-        const isNimExists = mahasiswa.find(m => m.nim === data.nim);
-        if (isNimExists) {
-            showToast.error("NIM sudah terdaftar! Gunakan NIM lain."); 
-            return;
+    // Ambil data dari API
+    const fetchMahasiswa = async () => {
+        try {
+            const res = await getAllMahasiswa();
+            setMahasiswa(res.data);
+        } catch (error) {
+            showToast.error("Gagal mengambil data dari server!");
         }
-        setMahasiswa([...mahasiswa, data]);
-        showToast.success("Data mahasiswa berhasil ditambahkan!"); 
     };
 
-    const updateMahasiswa = (data) => {
-        const isNimExists = mahasiswa.find(m => m.nim === data.nim);
-        if (isNimExists && isNimExists.nim !== selectedMahasiswa.nim) {
-            showToast.error("NIM sudah terdaftar pada mahasiswa lain!"); 
-            return;
-        }
-        
-        confirmAlert('Simpan Perubahan?', 'Apakah Anda yakin ingin memperbarui data mahasiswa ini?', 'Ya, Simpan!').then((result) => {
-            if (result.isConfirmed) {
-                setMahasiswa(mahasiswa.map(m => m.nim === selectedMahasiswa.nim ? data : m));
-                showToast.success("Data berhasil diupdate!"); 
-                setModalOpen(false);
-                setSelectedMahasiswa(null);
-            }
-        });
-    };
+    // Jalankan fetch saat komponen pertama kali dirender
+    useEffect(() => {
+        fetchMahasiswa();
+    }, []);
 
-    const deleteMahasiswa = (nim) => {
-        setMahasiswa(mahasiswa.filter(m => m.nim !== nim));
-    };
-
-    const openAddModal = () => {
-        setModalOpen(true);
+    const handleAdd = () => {
         setSelectedMahasiswa(null);
+        setIsModalOpen(true);
     };
 
-    const openEditModal = (mhs) => {
-        setModalOpen(true);
+    const handleEdit = (mhs) => {
         setSelectedMahasiswa(mhs);
+        setIsModalOpen(true);
     };
 
-    const handleSubmit = (data) => {
-        if (selectedMahasiswa) {
-            updateMahasiswa(data);
-        } else {
-            storeMahasiswa(data);
-            setModalOpen(false);
-            setSelectedMahasiswa(null);
+    const handleSubmit = async (form) => {
+        try {
+            if (selectedMahasiswa) {
+                const result = await confirmAlert('Update Data?', 'Yakin mau simpan perubahan ini?');
+                if (result.isConfirmed) {
+                    await updateMahasiswa(selectedMahasiswa.id, form); // Pakai .id sesuai JSON Server
+                    showToast.success("Data berhasil diupdate!");
+                    setIsModalOpen(false);
+                    fetchMahasiswa(); // Refresh tabel
+                }
+            } else {
+                await storeMahasiswa(form);
+                showToast.success("Data berhasil ditambahkan!");
+                setIsModalOpen(false);
+                fetchMahasiswa(); // Refresh tabel
+            }
+        } catch (error) {
+            showToast.error("Terjadi kesalahan saat menyimpan data.");
         }
     };
 
-    const handleDelete = (nim) => {
-        confirmAlert('Hapus Data?', 'Yakin ingin menghapus data mahasiswa ini secara permanen?', 'Ya, Hapus!').then((result) => {
-            if (result.isConfirmed) {
-                deleteMahasiswa(nim);
-                showToast.success("Data mahasiswa berhasil dihapus!"); 
-            } else {
-                showToast.error("Penghapusan dibatalkan."); 
+    const handleDelete = async (id) => {
+        const result = await confirmAlert('Hapus Data?', 'Yakin mau hapus data ini?');
+        if (result.isConfirmed) {
+            try {
+                await deleteMahasiswa(id); // Hapus berdasarkan id
+                showToast.success("Data berhasil dihapus!");
+                fetchMahasiswa(); // Refresh tabel
+            } catch (error) {
+                showToast.error("Gagal menghapus data.");
             }
-        });
+        }
     };
 
     return (
-        <>
-            <Card className="p-6">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-bold text-gray-700">Daftar Mahasiswa</h3>
-                    <Button onClick={openAddModal}>+ Tambah Data</Button>
-                </div>
-                
-                <MahasiswaTable 
-                    mahasiswa={mahasiswa} 
-                    openEditModal={openEditModal} 
-                    onDelete={handleDelete} 
-                />
-            </Card>
-
+        <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold">Daftar Mahasiswa</h2>
+                <Button onClick={handleAdd} className="bg-blue-600 hover:bg-blue-700">+ Tambah Data</Button>
+            </div>
+            {/* Lempar data ke tabel */}
+            <MahasiswaTable data={mahasiswa} onEdit={handleEdit} onDelete={handleDelete} />
             <MahasiswaModal 
                 isModalOpen={isModalOpen} 
-                onClose={() => { setModalOpen(false); setSelectedMahasiswa(null); }} 
-                onSubmit={handleSubmit}
-                selectedMahasiswa={selectedMahasiswa}
+                onClose={() => setIsModalOpen(false)} 
+                onSubmit={handleSubmit} 
+                selectedMahasiswa={selectedMahasiswa} 
             />
-        </>
+        </div>
     );
 }

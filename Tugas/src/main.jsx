@@ -7,10 +7,13 @@ import './index.css';
 import AuthLayout from './layouts/AuthLayout';
 import AdminLayout from './layouts/AdminLayout';
 
+import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Mahasiswa from './pages/Mahasiswa';
 import MahasiswaDetail from './pages/MahasiswaDetail';
+import Dosen from './pages/Dosen';
+import Matkul from './pages/Matkul';
 
 const ProtectedRoute = ({ children }) => {
   const isLoggedIn = localStorage.getItem("user");
@@ -29,6 +32,10 @@ const router = createBrowserRouter([
         index: true,
         element: <Login />,
       },
+      {
+    path: "/register",
+    element: <Register />,
+  },
     ],
   },
   {
@@ -55,10 +62,18 @@ const router = createBrowserRouter([
             element: <Mahasiswa />,
           },
           {
-            path: ":nim",
+            path: ":id", 
             element: <MahasiswaDetail />,
           },
         ],
+      },
+      {
+        path: "dosen",
+        element: <Dosen />,
+      },
+      {
+        path: "matkul",
+        element: <Matkul />,
       },
     ],
   },
