@@ -1,0 +1,64 @@
+{
+  "dosen": [
+    {
+      "id": "1",
+      "nidn": "0601020304",
+      "nama": "Pak Syaifur",
+      "matkul": "Pemrograman Sisi Klien"
+    },
+    {
+      "id": "2",
+      "nidn": "0601020305",
+      "nama": "Budi Susanto",
+      "matkul": "Basis Data"
+    }
+  ],
+  "mahasiswa": [
+    {
+      "id": "1",
+      "nama": "Syailendra Faza Bintang",
+      "nim": "A11.2020.12681",
+      "status": true
+    },
+    {
+      "id": "2",
+      "nama": "Gidhan Bagus Algary",
+      "nim": "A11.2020.12484",
+      "status": false
+    },
+    {
+      "id": "3",
+      "nama": "Rizqy Akbar Dinul Putra",
+      "nim": "A11.2020.13139",
+      "status": true
+    }
+  ],
+  "matkul": [
+    {
+      "id": "1",
+      "kode": "PSK4701",
+      "nama": "Pemrograman Sisi Klien",
+      "sks": "3"
+    },
+    {
+      "id": "2",
+      "kode": "PBD4702",
+      "nama": "Basis Data",
+      "sks": "4"
+    }
+  ],
+  "user": [
+    {
+      "id": "1",
+      "name": "Admin 1",
+      "email": "admin@mail.com",
+      "password": "123"
+    },
+    {
+      "id": "2",
+      "name": "Rizqy Akbar",
+      "email": "rizqy@mail.com",
+      "password": "123"
+    }
+  ]
+}
