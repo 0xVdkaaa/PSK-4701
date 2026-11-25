@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "nama": "Syailendra Faza Bintang",
+    "nim": "A11.2020.12681",
+    "status": true
+  },
+  {
+    "id": "2",
+    "nama": "Gidhan Bagus Algary",
+    "nim": "A11.2020.12484",
+    "status": false
+  },
+  {
+    "id": "3",
+    "nama": "Rizqy Akbar Dinul Putra",
+    "nim": "A11.2020.13139",
+    "status": true
+  },
+  {
+    "id": "4",
+    "nama": "Dimas Prasetyo",
+    "nim": "A11.2020.12401",
+    "status": true
+  },
+  {
+    "id": "5",
+    "nama": "Siti Rahmawati",
+    "nim": "A11.2020.12517",
+    "status": true
+  },
+  {
+    "id": "6",
+    "nama": "Andi Wijaya",
+    "nim": "A11.2020.12622",
+    "status": true
+  },
+  {
+    "id": "7",
+    "nama": "Bella Safira",
+    "nim": "A11.2020.12745",
+    "status": false
+  },
+  {
+    "id": "8",
+    "nama": "Raka Aditya",
+    "nim": "A11.2020.12890",
+    "status": true
+  },
+  {
+    "id": "9",
+    "nama": "Nadia Putri",
+    "nim": "A11.2020.12933",
+    "status": true
+  },
+  {
+    "id": "10",
+    "nama": "Fajar Ramadhan",
+    "nim": "A11.2020.13012",
+    "status": true
+  },
+  {
+    "id": "11",
+    "nama": "Intan Permata",
+    "nim": "A11.2020.13102",
+    "status": false
+  },
+  {
+    "id": "12",
+    "nama": "Yoga Saputra",
+    "nim": "A11.2020.13220",
+    "status": true
+  }
+]

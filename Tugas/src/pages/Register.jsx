@@ -6,6 +6,7 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import { showToast } from '../utils/toastHelper';
 import { registerAPI } from '../utils/Apis/AuthApi';
+import { getPermissionsForRole } from '../utils/permissions';
 
 export default function Register() {
     const navigate = useNavigate();
@@ -17,7 +18,16 @@ export default function Register() {
         const password = e.target.password.value;
 
         try {
-            await registerAPI({ name, email, password });
+            // TUGAS 9 - User yang baru registrasi otomatis dapat role Viewer
+            // (permission lihat saja). Role & permission-nya nanti bisa
+            // diubah oleh Admin lewat halaman Manajemen User.
+            await registerAPI({
+                name,
+                email,
+                password,
+                role: 'Viewer',
+                permissions: getPermissionsForRole('Viewer'),
+            });
             showToast.success("Registrasi berhasil! Silakan Login.");
             setTimeout(() => {
                 navigate("/"); // Balik ke halaman login

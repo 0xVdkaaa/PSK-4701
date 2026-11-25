@@ -1,4 +1,44 @@
 [
-  { "id": "1", "nidn": "0601020304", "nama": "Pak Syaifur", "matkul": "Pemrograman Sisi Klien" },
-  { "id": "2", "nidn": "0601020305", "nama": "Budi Susanto", "matkul": "Basis Data" }
+  {
+    "id": "1",
+    "nidn": "0601020304",
+    "nama": "Pak Syaifur",
+    "matkul": "Pemrograman Sisi Klien"
+  },
+  {
+    "id": "2",
+    "nidn": "0601020305",
+    "nama": "Budi Susanto",
+    "matkul": "Basis Data"
+  },
+  {
+    "id": "3",
+    "nidn": "0601020306",
+    "nama": "Dr. Ani Kusuma",
+    "matkul": "Pemrograman Web"
+  },
+  {
+    "id": "4",
+    "nidn": "0601020307",
+    "nama": "Rudi Hartono, M.Kom",
+    "matkul": "Sistem Operasi"
+  },
+  {
+    "id": "5",
+    "nidn": "0601020308",
+    "nama": "Dewi Lestari, M.Kom",
+    "matkul": "Jaringan Komputer"
+  },
+  {
+    "id": "6",
+    "nidn": "0601020309",
+    "nama": "Agus Salim, M.Kom",
+    "matkul": "Kecerdasan Buatan"
+  },
+  {
+    "id": "7",
+    "nidn": "0601020310",
+    "nama": "Rina Marlina, M.Kom",
+    "matkul": "Pemrograman Mobile"
+  }
 ]

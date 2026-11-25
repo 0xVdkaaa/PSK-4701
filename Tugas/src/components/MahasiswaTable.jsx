@@ -10,6 +10,7 @@ export default function MahasiswaTable({ data = [], onEdit, onDelete }) {
                         <th className="py-3 px-4 text-left">NIM</th>
                         <th className="py-3 px-4 text-left">Nama Lengkap</th>
                         <th className="py-3 px-4 text-left">Status</th>
+                        <th className="py-3 px-4 text-left">Total SKS Diambil</th>
                         <th className="py-3 px-4 text-left">Aksi</th>
                     </tr>
                 </thead>
@@ -23,6 +24,8 @@ export default function MahasiswaTable({ data = [], onEdit, onDelete }) {
                                     {mhs.status ? 'Aktif' : 'Tidak Aktif'}
                                 </span>
                             </td>
+                            {/* TUGAS 13 - Total SKS yang sudah diambil dari kelas-kelasnya */}
+                            <td className="py-3 px-4">{mhs.totalSks !== undefined ? `${mhs.totalSks} SKS` : '-'}</td>
                             <td className="py-3 px-4 flex space-x-2">
                                 {/* Link Detail sekarang pakai mhs.id */}
                                 <Link to={`/admin/mahasiswa/${mhs.id}`}>

@@ -11,6 +11,90 @@
       "nidn": "0601020305",
       "nama": "Budi Susanto",
       "matkul": "Basis Data"
+    },
+    {
+      "id": "3",
+      "nidn": "0601020306",
+      "nama": "Dr. Ani Kusuma",
+      "matkul": "Pemrograman Web"
+    },
+    {
+      "id": "4",
+      "nidn": "0601020307",
+      "nama": "Rudi Hartono, M.Kom",
+      "matkul": "Sistem Operasi"
+    },
+    {
+      "id": "5",
+      "nidn": "0601020308",
+      "nama": "Dewi Lestari, M.Kom",
+      "matkul": "Jaringan Komputer"
+    },
+    {
+      "id": "6",
+      "nidn": "0601020309",
+      "nama": "Agus Salim, M.Kom",
+      "matkul": "Kecerdasan Buatan"
+    },
+    {
+      "id": "7",
+      "nidn": "0601020310",
+      "nama": "Rina Marlina, M.Kom",
+      "matkul": "Pemrograman Mobile"
+    }
+  ],
+  "kelas": [
+    {
+      "id": "1",
+      "nama": "Kelas A - Pemrograman Sisi Klien",
+      "matkulId": "1",
+      "dosenId": "1",
+      "mahasiswaIds": [
+        "3",
+        "1"
+      ]
+    },
+    {
+      "id": "2",
+      "nama": "Kelas A - Basis Data",
+      "matkulId": "2",
+      "dosenId": "2",
+      "mahasiswaIds": [
+        "2"
+      ]
+    },
+    {
+      "id": "3",
+      "nama": "Kelas A - Pemrograman Web",
+      "matkulId": "3",
+      "dosenId": "3",
+      "mahasiswaIds": [
+        "1",
+        "2",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "id": "4",
+      "nama": "Kelas A - Sistem Operasi",
+      "matkulId": "4",
+      "dosenId": "4",
+      "mahasiswaIds": [
+        "1",
+        "3",
+        "6"
+      ]
+    },
+    {
+      "id": "5",
+      "nama": "Kelas A - Jaringan Komputer",
+      "matkulId": "5",
+      "dosenId": "5",
+      "mahasiswaIds": [
+        "2",
+        "7"
+      ]
     }
   ],
   "mahasiswa": [
@@ -31,6 +115,60 @@
       "nama": "Rizqy Akbar Dinul Putra",
       "nim": "A11.2020.13139",
       "status": true
+    },
+    {
+      "id": "4",
+      "nama": "Dimas Prasetyo",
+      "nim": "A11.2020.12401",
+      "status": true
+    },
+    {
+      "id": "5",
+      "nama": "Siti Rahmawati",
+      "nim": "A11.2020.12517",
+      "status": true
+    },
+    {
+      "id": "6",
+      "nama": "Andi Wijaya",
+      "nim": "A11.2020.12622",
+      "status": true
+    },
+    {
+      "id": "7",
+      "nama": "Bella Safira",
+      "nim": "A11.2020.12745",
+      "status": false
+    },
+    {
+      "id": "8",
+      "nama": "Raka Aditya",
+      "nim": "A11.2020.12890",
+      "status": true
+    },
+    {
+      "id": "9",
+      "nama": "Nadia Putri",
+      "nim": "A11.2020.12933",
+      "status": true
+    },
+    {
+      "id": "10",
+      "nama": "Fajar Ramadhan",
+      "nim": "A11.2020.13012",
+      "status": true
+    },
+    {
+      "id": "11",
+      "nama": "Intan Permata",
+      "nim": "A11.2020.13102",
+      "status": false
+    },
+    {
+      "id": "12",
+      "nama": "Yoga Saputra",
+      "nim": "A11.2020.13220",
+      "status": true
     }
   ],
   "matkul": [
@@ -45,20 +183,129 @@
       "kode": "PBD4702",
       "nama": "Basis Data",
       "sks": "4"
+    },
+    {
+      "id": "3",
+      "kode": "PWEB4703",
+      "nama": "Pemrograman Web",
+      "sks": "3"
+    },
+    {
+      "id": "4",
+      "kode": "SO4704",
+      "nama": "Sistem Operasi",
+      "sks": "3"
+    },
+    {
+      "id": "5",
+      "kode": "JK4705",
+      "nama": "Jaringan Komputer",
+      "sks": "3"
+    },
+    {
+      "id": "6",
+      "kode": "KB4706",
+      "nama": "Kecerdasan Buatan",
+      "sks": "2"
+    },
+    {
+      "id": "7",
+      "kode": "PM4707",
+      "nama": "Pemrograman Mobile",
+      "sks": "3"
+    },
+    {
+      "id": "8",
+      "kode": "DM4708",
+      "nama": "Data Mining",
+      "sks": "2"
     }
   ],
   "user": [
     {
+      "email": "admin@mail.com",
       "id": "1",
       "name": "Admin 1",
-      "email": "admin@mail.com",
-      "password": "123"
+      "password": "123",
+      "permissions": [
+        "mahasiswa.view",
+        "mahasiswa.create",
+        "mahasiswa.update",
+        "mahasiswa.delete",
+        "dosen.view",
+        "dosen.create",
+        "dosen.update",
+        "dosen.delete",
+        "matkul.view",
+        "matkul.create",
+        "matkul.update",
+        "matkul.delete",
+        "user.view",
+        "user.update",
+        "user.delete",
+        "kelas.view",
+        "kelas.create",
+        "kelas.update",
+        "kelas.delete"
+      ],
+      "role": "Admin"
     },
     {
+      "email": "rizqy@mail.com",
       "id": "2",
       "name": "Rizqy Akbar",
-      "email": "rizqy@mail.com",
-      "password": "123"
+      "password": "123",
+      "permissions": [
+        "mahasiswa.view",
+        "mahasiswa.create",
+        "mahasiswa.update",
+        "dosen.view",
+        "dosen.create",
+        "dosen.update",
+        "matkul.view",
+        "matkul.create",
+        "matkul.update",
+        "user.view",
+        "kelas.view",
+        "kelas.create",
+        "kelas.update"
+      ],
+      "role": "Operator"
+    },
+    {
+      "email": "operator@mail.com",
+      "id": "3",
+      "name": "Operator 1",
+      "password": "123",
+      "permissions": [
+        "mahasiswa.view",
+        "mahasiswa.create",
+        "mahasiswa.update",
+        "dosen.view",
+        "dosen.create",
+        "dosen.update",
+        "matkul.view",
+        "matkul.create",
+        "matkul.update",
+        "user.view",
+        "kelas.view",
+        "kelas.create",
+        "kelas.update"
+      ],
+      "role": "Operator"
+    },
+    {
+      "email": "viewer@mail.com",
+      "id": "4",
+      "name": "Viewer 1",
+      "password": "123",
+      "permissions": [
+        "mahasiswa.view",
+        "dosen.view",
+        "matkul.view",
+        "kelas.view"
+      ],
+      "role": "Viewer"
     }
   ]
 }

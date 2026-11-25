@@ -1,0 +1,87 @@
+[
+  {
+    "email": "admin@mail.com",
+    "id": "1",
+    "name": "Admin 1",
+    "password": "123",
+    "permissions": [
+      "mahasiswa.view",
+      "mahasiswa.create",
+      "mahasiswa.update",
+      "mahasiswa.delete",
+      "dosen.view",
+      "dosen.create",
+      "dosen.update",
+      "dosen.delete",
+      "matkul.view",
+      "matkul.create",
+      "matkul.update",
+      "matkul.delete",
+      "user.view",
+      "user.update",
+      "user.delete",
+      "kelas.view",
+      "kelas.create",
+      "kelas.update",
+      "kelas.delete"
+    ],
+    "role": "Admin"
+  },
+  {
+    "email": "rizqy@mail.com",
+    "id": "2",
+    "name": "Rizqy Akbar",
+    "password": "123",
+    "permissions": [
+      "mahasiswa.view",
+      "mahasiswa.create",
+      "mahasiswa.update",
+      "dosen.view",
+      "dosen.create",
+      "dosen.update",
+      "matkul.view",
+      "matkul.create",
+      "matkul.update",
+      "user.view",
+      "kelas.view",
+      "kelas.create",
+      "kelas.update"
+    ],
+    "role": "Operator"
+  },
+  {
+    "email": "operator@mail.com",
+    "id": "3",
+    "name": "Operator 1",
+    "password": "123",
+    "permissions": [
+      "mahasiswa.view",
+      "mahasiswa.create",
+      "mahasiswa.update",
+      "dosen.view",
+      "dosen.create",
+      "dosen.update",
+      "matkul.view",
+      "matkul.create",
+      "matkul.update",
+      "user.view",
+      "kelas.view",
+      "kelas.create",
+      "kelas.update"
+    ],
+    "role": "Operator"
+  },
+  {
+    "email": "viewer@mail.com",
+    "id": "4",
+    "name": "Viewer 1",
+    "password": "123",
+    "permissions": [
+      "mahasiswa.view",
+      "dosen.view",
+      "matkul.view",
+      "kelas.view"
+    ],
+    "role": "Viewer"
+  }
+]

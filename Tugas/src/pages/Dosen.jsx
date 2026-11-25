@@ -1,28 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import DosenTable from '../components/DosenTable';
 import DosenModal from '../components/DosenModal';
 import Button from '../components/Button';
 import { confirmAlert } from '../utils/swalHelper';
 import { showToast } from '../utils/toastHelper';
-import { getAllDosen, storeDosen, updateDosen, deleteDosen } from '../utils/Apis/DosenApi';
+// TUGAS 10 - Fetching & mutasi sekarang lewat Hooks React Query di folder Utils
+import {
+    useDosenList,
+    useCreateDosen,
+    useUpdateDosen,
+    useDeleteDosen,
+} from '../utils/hooks/useDosen';
+import Pagination from '../components/Pagination';
+import { usePagination } from '../utils/hooks/usePagination';
 
 export default function Dosen() {
-    const [dosen, setDosen] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedDosen, setSelectedDosen] = useState(null);
 
-    const fetchDosen = async () => {
-        try {
-            const res = await getAllDosen();
-            setDosen(res.data);
-        } catch (error) {
-            showToast.error("Gagal mengambil data dosen dari server!");
-        }
-    };
-
-    useEffect(() => {
-        fetchDosen();
-    }, []);
+    const { data: dosen = [], isLoading, isError } = useDosenList();
+    const pagination = usePagination(dosen, 5); // TUGAS 11 - Pagination
+    const createDosen = useCreateDosen();
+    const updateDosen = useUpdateDosen();
+    const deleteDosen = useDeleteDosen();
 
     const handleAdd = () => {
         setSelectedDosen(null);
@@ -38,18 +38,14 @@ export default function Dosen() {
         try {
             if (selectedDosen) {
                 const result = await confirmAlert('Update Data?', 'Yakin mau simpan perubahan ini?');
-                if (result.isConfirmed) {
-                    await updateDosen(selectedDosen.id, form);
-                    showToast.success("Data dosen berhasil diupdate!");
-                    setIsModalOpen(false);
-                    fetchDosen();
-                }
+                if (!result.isConfirmed) return;
+                await updateDosen.mutateAsync({ id: selectedDosen.id, data: form });
+                showToast.success("Data dosen berhasil diupdate!");
             } else {
-                await storeDosen(form);
+                await createDosen.mutateAsync(form);
                 showToast.success("Data dosen berhasil ditambahkan!");
-                setIsModalOpen(false);
-                fetchDosen();
             }
+            setIsModalOpen(false);
         } catch (error) {
             showToast.error("Terjadi kesalahan saat menyimpan data dosen.");
         }
@@ -59,14 +55,16 @@ export default function Dosen() {
         const result = await confirmAlert('Hapus Data?', 'Yakin mau hapus dosen ini?');
         if (result.isConfirmed) {
             try {
-                await deleteDosen(id);
+                await deleteDosen.mutateAsync(id);
                 showToast.success("Data dosen berhasil dihapus!");
-                fetchDosen();
             } catch (error) {
                 showToast.error("Gagal menghapus data dosen.");
             }
         }
     };
+
+    if (isLoading) return <p className="text-center mt-10">Memuat data dosen...</p>;
+    if (isError) return <p className="text-center mt-10 text-red-500">Gagal mengambil data dosen dari server!</p>;
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -74,7 +72,17 @@ export default function Dosen() {
                 <h2 className="text-2xl font-bold">Daftar Dosen</h2>
                 <Button onClick={handleAdd} className="bg-green-600 hover:bg-green-700">+ Tambah Dosen</Button>
             </div>
-            <DosenTable data={dosen} onEdit={handleEdit} onDelete={handleDelete} />
+            <DosenTable data={pagination.paginatedData} onEdit={handleEdit} onDelete={handleDelete} />
+            <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+                totalItems={pagination.totalItems}
+                itemsPerPage={pagination.itemsPerPage}
+                startIndex={pagination.startIndex}
+                endIndex={pagination.endIndex}
+                onPageChange={pagination.setCurrentPage}
+                onItemsPerPageChange={pagination.changeItemsPerPage}
+            />
             <DosenModal isModalOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleSubmit} selectedDosen={selectedDosen} />
         </div>
     );

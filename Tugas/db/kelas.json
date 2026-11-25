@@ -1,0 +1,54 @@
+[
+  {
+    "id": "1",
+    "nama": "Kelas A - Pemrograman Sisi Klien",
+    "matkulId": "1",
+    "dosenId": "1",
+    "mahasiswaIds": [
+      "3",
+      "1"
+    ]
+  },
+  {
+    "id": "2",
+    "nama": "Kelas A - Basis Data",
+    "matkulId": "2",
+    "dosenId": "2",
+    "mahasiswaIds": [
+      "2"
+    ]
+  },
+  {
+    "id": "3",
+    "nama": "Kelas A - Pemrograman Web",
+    "matkulId": "3",
+    "dosenId": "3",
+    "mahasiswaIds": [
+      "1",
+      "2",
+      "4",
+      "5"
+    ]
+  },
+  {
+    "id": "4",
+    "nama": "Kelas A - Sistem Operasi",
+    "matkulId": "4",
+    "dosenId": "4",
+    "mahasiswaIds": [
+      "1",
+      "3",
+      "6"
+    ]
+  },
+  {
+    "id": "5",
+    "nama": "Kelas A - Jaringan Komputer",
+    "matkulId": "5",
+    "dosenId": "5",
+    "mahasiswaIds": [
+      "2",
+      "7"
+    ]
+  }
+]

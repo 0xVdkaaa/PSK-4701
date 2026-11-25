@@ -1,31 +1,15 @@
-import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Card from '../components/Card';
 import Button from '../components/Button';
-import { getMahasiswa } from '../utils/Apis/MahasiswaApi';
-import { showToast } from '../utils/toastHelper';
+// TUGAS 10 - Detail mahasiswa sekarang memakai hook React Query
+import { useMahasiswaDetail } from '../utils/hooks/useMahasiswa';
 
 export default function MahasiswaDetail() {
     const { id } = useParams(); // Nangkep parameter ID dari URL
-    const [mahasiswa, setMahasiswa] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const { data: mahasiswa, isLoading, isError } = useMahasiswaDetail(id);
 
-    useEffect(() => {
-        const fetchDetail = async () => {
-            try {
-                const res = await getMahasiswa(id);
-                setMahasiswa(res.data);
-            } catch (error) {
-                showToast.error("Gagal mengambil data detail mahasiswa.");
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchDetail();
-    }, [id]);
-
-    if (loading) return <p className="text-center mt-10">Memuat data...</p>;
-    if (!mahasiswa) return <p className="text-center mt-10 text-red-500">Data tidak ditemukan</p>;
+    if (isLoading) return <p className="text-center mt-10">Memuat data...</p>;
+    if (isError || !mahasiswa) return <p className="text-center mt-10 text-red-500">Data tidak ditemukan</p>;
 
     return (
         <Card className="p-8 w-full max-w-2xl mx-auto mt-10 shadow-md">

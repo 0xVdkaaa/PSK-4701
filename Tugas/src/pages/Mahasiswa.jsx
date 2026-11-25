@@ -1,35 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import MahasiswaTable from '../components/MahasiswaTable';
 import MahasiswaModal from '../components/MahasiswaModal';
 import Button from '../components/Button';
 import { confirmAlert } from '../utils/swalHelper';
 import { showToast } from '../utils/toastHelper';
-import { 
-    getAllMahasiswa, 
-    storeMahasiswa, 
-    updateMahasiswa, 
-    deleteMahasiswa 
-} from '../utils/Apis/MahasiswaApi'; // Import API Mahasiswa
+// TUGAS 10 - Fetching & mutasi sekarang lewat Hooks React Query di folder Utils
+import {
+    useMahasiswaList,
+    useCreateMahasiswa,
+    useUpdateMahasiswa,
+    useDeleteMahasiswa,
+} from '../utils/hooks/useMahasiswa';
+import Pagination from '../components/Pagination';
+import { usePagination } from '../utils/hooks/usePagination';
+import { useKelasList } from '../utils/hooks/useKelas';
+import { useMatkulList } from '../utils/hooks/useMatkul';
+import { hitungSksMahasiswa } from '../utils/kelasRules';
 
 export default function Mahasiswa() {
-    const [mahasiswa, setMahasiswa] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedMahasiswa, setSelectedMahasiswa] = useState(null);
 
-    // Ambil data dari API
-    const fetchMahasiswa = async () => {
-        try {
-            const res = await getAllMahasiswa();
-            setMahasiswa(res.data);
-        } catch (error) {
-            showToast.error("Gagal mengambil data dari server!");
-        }
-    };
-
-    // Jalankan fetch saat komponen pertama kali dirender
-    useEffect(() => {
-        fetchMahasiswa();
-    }, []);
+    // useQuery menggantikan useEffect + useState untuk mengambil data
+    const { data: mahasiswa = [], isLoading, isError } = useMahasiswaList();
+    // TUGAS 13 - Lampirkan total SKS yang sudah diambil tiap mahasiswa
+    const { data: kelasList = [] } = useKelasList();
+    const { data: matkulList = [] } = useMatkulList();
+    const mahasiswaDenganSks = mahasiswa.map((mhs) => ({
+        ...mhs,
+        totalSks: hitungSksMahasiswa(mhs.id, kelasList, matkulList),
+    }));
+    const pagination = usePagination(mahasiswaDenganSks, 5); // TUGAS 11 - Pagination
+    const createMahasiswa = useCreateMahasiswa();
+    const updateMahasiswa = useUpdateMahasiswa();
+    const deleteMahasiswa = useDeleteMahasiswa();
 
     const handleAdd = () => {
         setSelectedMahasiswa(null);
@@ -45,18 +49,15 @@ export default function Mahasiswa() {
         try {
             if (selectedMahasiswa) {
                 const result = await confirmAlert('Update Data?', 'Yakin mau simpan perubahan ini?');
-                if (result.isConfirmed) {
-                    await updateMahasiswa(selectedMahasiswa.id, form); // Pakai .id sesuai JSON Server
-                    showToast.success("Data berhasil diupdate!");
-                    setIsModalOpen(false);
-                    fetchMahasiswa(); // Refresh tabel
-                }
+                if (!result.isConfirmed) return;
+                await updateMahasiswa.mutateAsync({ id: selectedMahasiswa.id, data: form });
+                showToast.success("Data berhasil diupdate!");
             } else {
-                await storeMahasiswa(form);
+                await createMahasiswa.mutateAsync(form);
                 showToast.success("Data berhasil ditambahkan!");
-                setIsModalOpen(false);
-                fetchMahasiswa(); // Refresh tabel
             }
+            setIsModalOpen(false);
+            // Tabel otomatis refresh karena query ['mahasiswa'] di-invalidate mutation
         } catch (error) {
             showToast.error("Terjadi kesalahan saat menyimpan data.");
         }
@@ -66,14 +67,16 @@ export default function Mahasiswa() {
         const result = await confirmAlert('Hapus Data?', 'Yakin mau hapus data ini?');
         if (result.isConfirmed) {
             try {
-                await deleteMahasiswa(id); // Hapus berdasarkan id
+                await deleteMahasiswa.mutateAsync(id);
                 showToast.success("Data berhasil dihapus!");
-                fetchMahasiswa(); // Refresh tabel
             } catch (error) {
                 showToast.error("Gagal menghapus data.");
             }
         }
     };
+
+    if (isLoading) return <p className="text-center mt-10">Memuat data mahasiswa...</p>;
+    if (isError) return <p className="text-center mt-10 text-red-500">Gagal mengambil data dari server!</p>;
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-sm">
@@ -81,13 +84,22 @@ export default function Mahasiswa() {
                 <h2 className="text-2xl font-bold">Daftar Mahasiswa</h2>
                 <Button onClick={handleAdd} className="bg-blue-600 hover:bg-blue-700">+ Tambah Data</Button>
             </div>
-            {/* Lempar data ke tabel */}
-            <MahasiswaTable data={mahasiswa} onEdit={handleEdit} onDelete={handleDelete} />
-            <MahasiswaModal 
-                isModalOpen={isModalOpen} 
-                onClose={() => setIsModalOpen(false)} 
-                onSubmit={handleSubmit} 
-                selectedMahasiswa={selectedMahasiswa} 
+            <MahasiswaTable data={pagination.paginatedData} onEdit={handleEdit} onDelete={handleDelete} />
+            <Pagination
+                currentPage={pagination.currentPage}
+                totalPages={pagination.totalPages}
+                totalItems={pagination.totalItems}
+                itemsPerPage={pagination.itemsPerPage}
+                startIndex={pagination.startIndex}
+                endIndex={pagination.endIndex}
+                onPageChange={pagination.setCurrentPage}
+                onItemsPerPageChange={pagination.changeItemsPerPage}
+            />
+            <MahasiswaModal
+                isModalOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSubmit={handleSubmit}
+                selectedMahasiswa={selectedMahasiswa}
             />
         </div>
     );

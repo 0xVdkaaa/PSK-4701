@@ -1,0 +1,158 @@
+{
+  "dosen": [
+    {
+      "id": "1",
+      "nidn": "0601020304",
+      "nama": "Pak Syaifur",
+      "matkul": "Pemrograman Sisi Klien"
+    },
+    {
+      "id": "2",
+      "nidn": "0601020305",
+      "nama": "Budi Susanto",
+      "matkul": "Basis Data"
+    }
+  ],
+  "kelas": [
+    {
+      "dosenId": "1",
+      "id": "1",
+      "mahasiswaIds": [
+        "3",
+        "1"
+      ],
+      "matkulId": "1",
+      "nama": "Kelas A - Pemrograman Sisi Klien"
+    },
+    {
+      "dosenId": "2",
+      "id": "2",
+      "mahasiswaIds": [
+        "2"
+      ],
+      "matkulId": "2",
+      "nama": "Kelas A - Basis Data"
+    }
+  ],
+  "mahasiswa": [
+    {
+      "id": "1",
+      "nama": "Syailendra Faza Bintang",
+      "nim": "A11.2020.12681",
+      "status": true
+    },
+    {
+      "id": "2",
+      "nama": "Gidhan Bagus Algary",
+      "nim": "A11.2020.12484",
+      "status": false
+    },
+    {
+      "id": "3",
+      "nama": "Rizqy Akbar Dinul Putra",
+      "nim": "A11.2020.13139",
+      "status": true
+    }
+  ],
+  "matkul": [
+    {
+      "id": "1",
+      "kode": "PSK4701",
+      "nama": "Pemrograman Sisi Klien",
+      "sks": "3"
+    },
+    {
+      "id": "2",
+      "kode": "PBD4702",
+      "nama": "Basis Data",
+      "sks": "4"
+    }
+  ],
+  "user": [
+    {
+      "email": "admin@mail.com",
+      "id": "1",
+      "name": "Admin 1",
+      "password": "123",
+      "permissions": [
+        "mahasiswa.view",
+        "mahasiswa.create",
+        "mahasiswa.update",
+        "mahasiswa.delete",
+        "dosen.view",
+        "dosen.create",
+        "dosen.update",
+        "dosen.delete",
+        "matkul.view",
+        "matkul.create",
+        "matkul.update",
+        "matkul.delete",
+        "user.view",
+        "user.update",
+        "user.delete",
+        "kelas.view",
+        "kelas.create",
+        "kelas.update",
+        "kelas.delete"
+      ],
+      "role": "Admin"
+    },
+    {
+      "email": "rizqy@mail.com",
+      "id": "2",
+      "name": "Rizqy Akbar",
+      "password": "123",
+      "permissions": [
+        "mahasiswa.view",
+        "mahasiswa.create",
+        "mahasiswa.update",
+        "dosen.view",
+        "dosen.create",
+        "dosen.update",
+        "matkul.view",
+        "matkul.create",
+        "matkul.update",
+        "user.view",
+        "kelas.view",
+        "kelas.create",
+        "kelas.update"
+      ],
+      "role": "Operator"
+    },
+    {
+      "email": "operator@mail.com",
+      "id": "3",
+      "name": "Operator 1",
+      "password": "123",
+      "permissions": [
+        "mahasiswa.view",
+        "mahasiswa.create",
+        "mahasiswa.update",
+        "dosen.view",
+        "dosen.create",
+        "dosen.update",
+        "matkul.view",
+        "matkul.create",
+        "matkul.update",
+        "user.view",
+        "kelas.view",
+        "kelas.create",
+        "kelas.update"
+      ],
+      "role": "Operator"
+    },
+    {
+      "email": "viewer@mail.com",
+      "id": "4",
+      "name": "Viewer 1",
+      "password": "123",
+      "permissions": [
+        "mahasiswa.view",
+        "dosen.view",
+        "matkul.view",
+        "kelas.view"
+      ],
+      "role": "Viewer"
+    }
+  ]
+}
